@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}Мероприятие {{ event.event_format }}{% endblock %}
+
+{% block content %}
+    <h1>{{ event.event_format }}</h1>
+    <p><strong>Описание:</strong> {{ event.event_exhibits|default:"Нет описания" }}</p>
+    <p><strong>Дата:</strong> {{ event.event_date_time }}</p>
+    <p><strong>Формат:</strong> {{ event.event_format }}</p>
+    <p><strong>Зона:</strong> {{ event.zone.zone_type|default:"Не привязано" }}</p>
+{% endblock %}

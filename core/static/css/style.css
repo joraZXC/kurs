@@ -1,0 +1,16 @@
+body {
+        background-color: #f8f9fa;
+    }
+    .table th, .table td {
+        vertical-align: middle;
+    }
+form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.text-center.mt-3 a {
+    color: #007bff;
+    font-weight: bold;
+}

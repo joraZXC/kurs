@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>{% block title %}Ocelote{% endblock %}</title>
+    {% load django_bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">            
+    <style>
+        .profile-btn {
+            background-color: #28a745;
+            color: white;
+            border-radius: 20px;
+            padding: 5px 15px;
+            margin-left: 10px;
+        }
+        .profile-btn:hover {
+            background-color: #218838;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'home' %}">Ocelote</a>
+        <div class="navbar-nav ms-auto">
+            {% if request.resolver_match.url_name != 'home' and request.resolver_match.url_name != 'register' %}
+                {% if not user.is_staff %}
+                    <a class="nav-link" href="{% url 'event_list' %}">Мероприятия</a>
+                    <a class="nav-link" href="{% url 'ticket_purchase' %}">Купить билет</a>
+                {% endif %}
+                {% if user.is_authenticated and user.is_staff %}
+                    <a class="nav-link" href="{% url 'zone_list' %}">Зоны</a>
+                    <!-- Новая кнопка для просмотра отзывов -->
+                    <a class="nav-link" href="{% url 'review_list' %}">
+                        <i class="bi bi-chat-dots"></i> Отзывы
+                    </a>
+                {% endif %}
+            {% endif %}
+
+            {% if user.is_authenticated %}
+                {% if not user.is_staff %}
+                    <!-- Кнопка "Оставить отзыв" -->
+                    <a class="nav-link" href="{% url 'review_create' %}">
+                        <i class="bi bi-chat-left-text"></i> Оставить отзыв
+                    </a>
+                {% endif %}
+                <a class="nav-link" href="{% url 'logout' %}">Выйти</a>
+                {% if user.is_staff %}
+                    <a class="nav-link" href="{% url 'analytics_dashboard' %}">Аналитика</a>
+                {% endif %}
+                {% if not user.is_staff %}
+                    <a class="nav-link profile-btn" href="{% url 'profile' %}">
+                        <i class="bi bi-person-circle"></i> Личный кабинет
+                    </a>
+                {% endif %}
+            {% else %}
+                <a class="nav-link" href="{% url 'login' %}?next={% url 'event_list' %}&role=user">
+                    <i class="bi bi-person"></i> Войти как пользователь
+                </a>
+                <a class="nav-link" href="{% url 'login' %}?next={% url 'analytics_dashboard' %}&role=admin">
+                    <i class="bi bi-shield-lock"></i> Войти как администратор
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    {% if messages %}
+        <div class="alert alert-info">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% block content %}
+    {% endblock %}
+</div>
+</body>
+</html>

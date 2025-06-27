@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %} 
+{% block title %}Добро пожаловать {% endblock %}
+
+{% block content %}
+    <div style="background-color: #f8f9fa; padding: 50px; border-radius: 10px; min-height: 80vh;">
+        <h1 class="text-center">Добро пожаловать в Ocelote🐆!</h1>
+        <p class="text-center text-muted">Познакомтесь с типами наших мероприятий!</p>
+
+        <div class="row mt-5 justify-content-center">
+            <div class="col-md-4 text-center">
+                <img src="https://i.pinimg.com/736x/4d/71/8d/4d718dc92c89d707e56cd261a344c977.jpg"  alt="Мероприятие 1" class="img-fluid img-thumbnail" style="width: 150px; height: 150px; object-fit: cover;">
+                <p class="text-center">Посетите выставку</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <img src="https://gamma-delta.ru/upload/iblock/42d/379hl5x8sbias202mtkz2c043ch1q7ze.jpg"  alt="Мероприятие 2" class="img-fluid img-thumbnail" style="width: 150px; height: 150px; object-fit: cover;">
+                <p class="text-center">Узнайте новое на презентациях</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <img src="https://avatars.mds.yandex.net/i?id=5edeade9e933e9ad2dceaed4b3e8a1978ed8bbac-5877649-images-thumbs&n=13" alt="Мероприятие 3" class="img-fluid img-thumbnail" style="width: 150px; height: 150px; object-fit: cover;">
+                <p class="text-center">Попробуйте себя в конференции</p>
+            </div>
+        </div>
+ 
+        <div class="mt-5 px-3 text-center">
+            <h4>Мы рады приветствовать вас на сайте выставочного комплекса "Ocelote":</h4>
+            <p>Мы рады любым посетителям</p>
+            <p><b><i>По вопросам бронирования обращаться:</i></b></p>
+            <p><b><i>📞8-800-555-35-35-Александр Александров📞</i></b></p>
+            <p><b><i>✉️example@gmail.com-Ответим в течение от 24 до 48 часов  ✉️</i></b></p>
+            <p><b><i>Вся информация о бронировании представлена в файле.</i></b></p>
+             <a href="{% static 'docs/example.docx' %}" download class="btn btn-primary mt-3">Скачать файл</a>
+        </div>
+    </div>
+
+
+    <div class="text-center text-muted mt-4">
+        &copy; 2025.
+    </div>
+{% endblock %}

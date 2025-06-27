@@ -1,0 +1,26 @@
+{% extends 'base_minimal.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}Купить билет - Ocelote{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="text-center">Покупка билета</h1>
+        <form method="post">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-primary">Купить</button>
+            </div>
+        </form>
+        
+        <div class="text-center mt-5">
+            <a href="https://example.com" target="_blank">
+                <img src="https://avatars.mds.yandex.net/get-images-cbir/9636427/hY-wcRXQbICMrBnHraawHA875/preview" 
+                     alt="Билеты Ocelote" 
+                     class="img-fluid" 
+                     style="max-height: 300px;">
+            </a>
+        </div>
+    </div>
+{% endblock %}

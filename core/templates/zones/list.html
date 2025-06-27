@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block title %}Список зон{% endblock %}
+{% block content %}
+    <h2>Список зон</h2>
+
+    {% if user.is_authenticated and user.is_staff %}
+        <a href="{% url 'zone_create' %}" class="btn btn-success mb-3">Создать зону</a>
+    {% endif %}
+
+    {% if zones %}
+        <div class="card">
+            {% for zone in zones %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ zone.zone_type }} (ID: {{ zone.zone_id }})</h5>
+                    <p class="card-text">
+                        Площадь: {{ zone.zone_square }} м²<br>
+                    </p>
+                </div>
+                {% if not forloop.last %}
+                    <hr>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Зон пока нет.</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block title %}Управление персоналом{% endblock %}
+{% block content %}
+    <h2>Управление персоналом</h2>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Добавить сотрудника</h4>
+            <form method="post">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <button type="submit" class="btn btn-primary">Назначить</button>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <h4>Текущие назначения</h4>
+            {% if zones %}
+                <ul class="list-group">
+                    {% for zone in zones %}
+                        {% if zone.employer %}
+                            <li class="list-group-item">
+                                {{ zone.zone_type }} — {{ zone.employer.employer_fio }}
+                                <a href="{% url 'remove_employer_from_zone' zone_id=zone.zone_id %}" class="btn btn-danger float-end">Удалить</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>Нет назначенных сотрудников.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

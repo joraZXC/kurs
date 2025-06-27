@@ -1,0 +1,42 @@
+<!-- templates/analytics/dashboard.html -->
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+{% block title %}Аналитика{% endblock %}
+{% block content %}
+    <h2>Аналитика</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <p><strong>Количество мероприятий:</strong> {{ event_count }}</p>
+        </div>
+        <div class="col-md-6">
+            <p><strong>Общая выручка:</strong> {{ total_revenue }} руб.</p>
+        </div>
+    </div>
+
+    <!-- График выручки -->
+    <canvas id="revenueChart" width="400" height="200"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+    <script>
+        var ctx = document.getElementById('revenueChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Выручка'],
+                datasets: [{
+                    label: 'Общая выручка',
+                    data: [{{ total_revenue }}],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+{% endblock %}

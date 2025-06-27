@@ -1,0 +1,7 @@
+
+django==4.2.16
+psycopg2-binary==2.9.9
+django-bootstrap5==24.3
+django-redis==5.4.0
+redis==5.0.8
+

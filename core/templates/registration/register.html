@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block title %}Регистрация{% endblock %}
+{% block content %}
+    <h1 class="text-center">Регистрация</h1>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    
+    {% if not registered %}
+        <form method="post">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+            </div>
+        </form>
+>
+        <div class="text-center mt-3">
+            <a href="{% url 'home' %}" class="btn btn-secondary">Вернуться на главную</a>
+        </div>
+    {% else %}
+        <h2 class="text-center mt-4">Доступные мероприятия</h2>
+        {% if events %}
+            <ul class="list-group mt-3">
+                {% for event in events %}
+                    <li class="list-group-item">
+                        <h5>{{ event.name }}</h5>
+                        <p>{{ event.description }}</p>
+                        <p><strong>Дата:</strong> {{ event.date }}</p>
+                        <p><strong>Место:</strong> {{ event.zone.name }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-center mt-3">Мероприятий пока нет.</p>
+        {% endif %}
+        <div class="text-center mt-3">
+            <a href="{% url 'event_list' %}" class="btn btn-primary">Перейти к списку мероприятий</a>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Доступные мероприятия{% endblock %}
+{% block content %}
+    <h2>Доступные мероприятия</h2>
+
+    {% if events %}
+        <div class="row">
+            {% for event in events %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        {# Динамическое изображение #}
+                        <img src="
+                            {% if event.event_format == 'Выставка' %}
+                                https://www.friedrich-verlag.de/fileadmin/user_upload/tx_vcfvhefteundartikel/16582-011/16582-011_teaser.jpg 
+                            {% elif event.event_format == 'Семинар' %}
+                                https://psymos.ru/storage/%D0%A4%D0%BE%D1%82%D0%BE%20%D0%B4%D0%BB%D1%8F%20%D0%BD%D0%BE%D0%B2%D0%BE%D1%81%D1%82%D0%B5%D0%B9/WhatsApp%20Image%202024-03-26%20at%201.13.18%20PM.jpeg 
+                            {% else %}
+                                {% static 'images/default-event.jpg' %}
+                            {% endif %}
+                        " 
+                             class="card-img-top" 
+                             alt="Изображение {{ event.event_format }}" 
+                             style="max-height: 200px; object-fit: cover;">
+                        
+                        <div class="card-body">
+                            <h5 class="card-title">{{ event.event_format }}</h5>
+                            <p class="card-text">
+                                <strong>Дата:</strong> {{ event.event_date_time }}<br>
+                            </p>
+                            <button class="btn btn-primary w-100" 
+                                    onclick="showEventDetails(
+                                        {{ event.event_id }},
+                                        '{{ event.event_format }}',
+                                        '{{ event.event_date_time|date:"Y-m-d" }}',
+                                        '{{ event.event_exhibits|default_if_none:"Нет информации" }}',
+                                        '{{ event.description|default_if_none:"Нет описания" }}'
+                                    )">
+                                Подробнее
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info mt-3">Мероприятий пока нет.</div>
+    {% endif %}
+
+    <!-- Модальное окно -->
+    <div class="modal fade" id="eventDetailsModal" tabindex="-1" aria-labelledby="eventDetailsLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eventDetailsLabel">Информация о мероприятии</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-3">
+                        <img id="modal-event-image" 
+                             src="{% static 'images/default-event.jpg' %}"      
+                             alt="Изображение мероприятия" 
+                             class="img-fluid rounded" 
+                             style="max-height: 400px; margin: auto;">
+                    </div>
+                    <p><strong>ID:</strong> <span id="modal-event-id"></span></p>
+                    <p><strong>Формат:</strong> <span id="modal-event-format"></span></p>
+                    <p><strong>Дата:</strong> <span id="modal-event-date"></span></p>
+                    <p><strong>Экспонаты:</strong> <span id="modal-event-exhibits"></span></p>
+                    <p><strong>Описание:</strong> <span id="modal-event-description"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> 
+
+    <!-- JavaScript для подстановки данных и картинок -->
+    <script>
+        const eventImages = {
+            "Выставка": "https://www.friedrich-verlag.de/fileadmin/user_upload/tx_vcfvhefteundartikel/16582-011/16582-011_teaser.jpg", 
+            "Семинар": "https://psymos.ru/storage/%D0%A4%D0%BE%D1%82%D0%BE%20%D0%B4%D0%BB%D1%8F%20%D0%BD%D0%BE%D0%B2%D0%BE%D1%81%D1%82%D0%B5%D0%B9/WhatsApp%20Image%202024-03-26%20at%201.13.18%20PM.jpeg", 
+            "Лекция": "{% static 'images/lecture.jpg' %}",
+            "Конференция": "{% static 'images/conference.jpg' %}"
+        };
+
+        function showEventDetails(id, format, date, exhibits, description) {
+            document.getElementById('modal-event-id').innerText = id;
+            document.getElementById('modal-event-format').innerText = format;
+            document.getElementById('modal-event-date').innerText = date;
+            document.getElementById('modal-event-exhibits').innerText = exhibits || "—";
+            document.getElementById('modal-event-description').innerText = description || "—";
+
+            // Устанавливаем изображение по типу мероприятия или дефолтное
+            const imageUrl = eventImages[format] || "{% static 'images/default-event.jpg' %}";
+            document.getElementById('modal-event-image').src = imageUrl;
+
+            const myModal = new bootstrap.Modal(document.getElementById('eventDetailsModal'));
+            myModal.show();
+        }
+    </script>
+{% endblock %}

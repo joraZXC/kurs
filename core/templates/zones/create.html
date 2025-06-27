@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block title %}Добавить зону{% endblock %}
+{% block content %}
+<h2>Добавить зону</h2>
+
+<!-- Кнопка "Назад" -->
+<div class="mb-3">
+    <a href="{% url 'zone_list' %}" class="btn btn-secondary">← Вернуться к списку зон</a>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+
+    <!-- Основные поля зоны -->
+    <div class="mb-3">
+        {{ form.contract.label_tag }}
+        {{ form.contract }}
+    </div>
+    <div class="mb-3">
+        {{ form.complex.label_tag }}
+        {{ form.complex }}
+    </div>
+    <div class="mb-3">
+        {{ form.zone_equipment.label_tag }}
+        {{ form.zone_equipment }}
+    </div>
+    <div class="mb-3">
+        {{ form.zone_square.label_tag }}
+        {{ form.zone_square }}
+    </div>
+    <div class="mb-3">
+        {{ form.zone_type.label_tag }}
+        {{ form.zone_type }}
+    </div>
+
+    <hr>
+
+    <!-- Чекбокс: создать мероприятие -->
+    <div class="form-check mb-3">
+        <input type="checkbox" id="id_create_event" name="create_event" class="form-check-input"
+               onchange="toggleEventFields(this.checked)">
+        <label for="id_create_event" class="form-check-label"><strong>Создать мероприятие</strong></label>
+    </div>
+
+    <!-- Блок формы мероприятия -->
+    <div id="event-fields" style="display: none;">
+        <h4>Мероприятие</h4>
+        <div class="mb-3">
+            <label for="{{ form.event_format.id_for_label }}" class="form-label">{{ form.event_format.label }}</label>
+            {{ form.event_format }}
+        </div>
+        <div class="mb-3">
+            <label for="{{ form.event_date_time.id_for_label }}" class="form-label">{{ form.event_date_time.label }}</label>
+            {{ form.event_date_time }}
+        </div>
+        <div class="mb-3">
+            <label for="{{ form.event_exhibits.id_for_label }}" class="form-label">{{ form.event_exhibits.label }}</label>
+            {{ form.event_exhibits }}
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Чекбокс: создать контракт -->
+    <div class="form-check mb-3">
+        <input type="checkbox" id="id_create_contract" name="create_contract" class="form-check-input"
+               onchange="toggleContractFields(this.checked)">
+        <label for="id_create_contract" class="form-check-label"><strong>Создать контракт</strong></label>
+    </div>
+    <div id="contract-fields" style="display: none;">
+        <h4>Контракт</h4>
+        <div class="mb-3">
+            <label for="{{ form.contract_conditions.id_for_label }}" class="form-label">{{ form.contract_conditions.label }}</label>
+            {{ form.contract_conditions }}
+        </div>
+        <div class="mb-3">
+            <label for="{{ form.contract_cost.id_for_label }}" class="form-label">{{ form.contract_cost.label }}</label>
+            {{ form.contract_cost }}
+        </div>
+        <div class="mb-3">
+            <label for="{{ form.contract_term.id_for_label }}" class="form-label">{{ form.contract_term.label }}</label>
+            {{ form.contract_term }}
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Чекбокс: создать организатора -->
+    <div class="form-check mb-3">
+        <input type="checkbox" id="id_create_organizer" name="create_organizer" class="form-check-input"
+               onchange="toggleOrganizerFields(this.checked)">
+        <label for="id_create_organizer" class="form-check-label"><strong>Создать нового организатора</strong></label>
+    </div>
+    <div id="organizer-fields" style="display: none;">
+        <h4>Организатор</h4>
+        <div class="mb-3">
+            <label for="{{ form.organizer_affiliation.id_for_label }}" class="form-label">{{ form.organizer_affiliation.label }}</label>
+            {{ form.organizer_affiliation }}
+        </div>
+        <div class="mb-3">
+            <label for="{{ form.organizer_fio.id_for_label }}" class="form-label">{{ form.organizer_fio.label }}</label>
+            {{ form.organizer_fio }}
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+
+<script>
+function toggleEventFields(checked) {
+    document.getElementById("event-fields").style.display = checked ? "block" : "none";
+}
+function toggleContractFields(checked) {
+    document.getElementById("contract-fields").style.display = checked ? "block" : "none";
+}
+function toggleOrganizerFields(checked) {
+    document.getElementById("organizer-fields").style.display = checked ? "block" : "none";
+}
+</script>
+{% endblock %}

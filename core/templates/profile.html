@@ -1,0 +1,24 @@
+{% extends 'base_minimal.html' %}
+{% load django_bootstrap5 %}
+{% block title %}Личный кабинет - Ocelote{% endblock %}
+{% block content %}
+<h1 class="text-center">Личный кабинет</h1>
+<p>Привет, {{ user.username }}!</p>
+{% if has_tickets %}
+<h2>Ваши билеты</h2>
+<ul class="list-group">
+    {% for ticket in tickets %}
+    <li class="list-group-item">
+        <strong>Номер билета:</strong> {{ ticket.ticket_number }}<br>
+        <strong>Тип билета:</strong> {{ ticket.ticket_type }}<br>
+        <strong>Стоимость:</strong> {{ ticket.ticket_cost }}<br>
+        <strong>Мероприятие:</strong> {{ ticket.event.event_format }} ({{ ticket.event.event_date_time }})
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<div class="alert alert-warning text-center" role="alert">
+    У вас не зарегистрировано билетов.
+</div>
+{% endif %}
+{% endblock %}

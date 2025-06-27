@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block title %}Редактировать мероприятие #{{ event.event_id }}{% endblock %}
+{% block content %}
+    <h2>Редактировать мероприятие #{{ event.event_id }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <a href="{% url 'event_detail' event.event_id %}" class="btn btn-secondary">Отмена</a>
+    </form>
+{% endblock %}

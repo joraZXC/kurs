@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block title %}Отзывы{% endblock %}
+{% block content %}
+    <h1 class="text-center">Отзывы</h1>
+
+    {% if reviews %}
+        <ul class="list-group mt-3">
+            {% for review in reviews %}
+                <li class="list-group-item">
+                    <strong>Автор:</strong> {{ review.user.get_full_name|default:review.user.username }}<br>
+                    <strong>Текст отзыва:</strong> {{ review.review_text }}<br>
+                    <strong>Оценка:</strong> {{ review.rating }}/5<br>
+                    <strong>Дата:</strong> {{ review.created_at|date:"d.m.Y" }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-center mt-3">Отзывов пока нет.</p>
+    {% endif %}
+{% endblock %}

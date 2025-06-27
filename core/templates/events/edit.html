@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+    {% block content %}
+    <h2>Редактировать мероприятие #{{ form.instance.event_id }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+    {% endblock %}

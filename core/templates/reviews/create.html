@@ -1,0 +1,10 @@
+     {% extends 'base.html' %}
+     {% block content %}
+     {% load django_bootstrap5 %} 
+     <h2>Добавить отзыв</h2>
+     <form method="post">
+         {% csrf_token %}
+         {% bootstrap_form form %}
+         <button type="submit" class="btn btn-primary">Сохранить</button>
+     </form>
+     {% endblock %}
